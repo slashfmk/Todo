@@ -27,7 +27,7 @@ class TodoViewModel: ObservableObject {
     public init(){
         todos.append(Todo(title: "The automated todo of the year", completed: false, date: Date()))
     }
-
+    
     /// Remove the todo passed from the List
     /// - Parameter todo: Todo to remove
     /// - Returns: Bool
