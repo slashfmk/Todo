@@ -7,18 +7,19 @@
 
 import SwiftUI
 
-struct CreateTodoForm: View {
+struct CreateTodoView: View {
     
-    @ObservedObject var todos: TodoViewModel
+    @ObservedObject var todos =  TodoViewModel()
+    @StateObject var todoViewModel = CreateTodoViewModel()
     
     @Environment(\.dismiss) private var dismiss
-
     
-    @State var title: String = ""
-    @State var date: Date = Date()
+    
+    //    @State var title: String = ""
+    //    @State var date: Date = Date()
     
     var body: some View {
-       
+        
         VStack {
             
             Image(systemName: "xmark.circle")
@@ -35,29 +36,28 @@ struct CreateTodoForm: View {
                 .foregroundColor(.gray)
             
             
-            TextField("Title", text: $title)
+            TextField("Title", text: $todoViewModel.title)
                 .font(.headline)
                 .foregroundColor(.gray)
                 .padding(.all, 15)
-                .border(title.isEmpty ? .red : .gray, width: 0.2)
+                .border(!todoViewModel.isReady() ? .red : .gray, width: 0.2)
             
-            DatePicker("Date", selection: $date, displayedComponents: [.date])
+            DatePicker("Date", selection: $todoViewModel.date, displayedComponents: [.date])
                 .datePickerStyle(.wheel)
                 .font(.callout)
                 .foregroundColor(.gray)
             
-            ButtonView(label: "Save Todo", action: {
-                
-                if title.isEmpty {
-                    return
-                }
-                
-                todos.add(todo: Todo(title: title, date: date))
-                dismiss()
-            })
+            ButtonView(
+                label: "Save Todo",
+                action: {
+                    if todoViewModel.isReady() {
+                        todos.add(todo: Todo(title: todoViewModel.title, date: todoViewModel.date))
+                        dismiss()
+                    }
+                })
             
             Spacer()
-                
+            
         }
         .padding()
         
@@ -65,5 +65,5 @@ struct CreateTodoForm: View {
 }
 
 #Preview {
-    CreateTodoForm(todos: TodoViewModel())
+    CreateTodoView(todos: TodoViewModel())
 }

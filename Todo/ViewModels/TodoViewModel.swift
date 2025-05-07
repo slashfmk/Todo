@@ -9,32 +9,32 @@ import Foundation
 
 class TodoViewModel: ObservableObject {
     
-    @Published private var todos: [Todo] = []
+    @Published var todos: [Todo] = []
     @Published var loading: Bool = false
     
     var sortCompleted: [Todo] {
-        todos.filter({$0.completed == true})
+        return todos.filter({$0.completed == true})
     }
     
     var sortNotCompleted: [Todo] {
-        todos.filter({$0.completed == false})
+        return todos.filter({$0.completed == false})
     }
     
     var all: [Todo] {
         todos
     }
     
-    public init(){
-        todos.append(Todo(title: "The automated todo of the year", completed: false, date: Date()))
+     init(){
+//        todos.append(Todo(title: "The automated todo of the year", completed: false, date: Date()))
     }
-
+    
     /// Remove the todo passed from the List
     /// - Parameter todo: Todo to remove
     /// - Returns: Bool
     public func delete(todo: Todo) -> Bool{
         
         loading = true
-        if let getTodoIndex = self.todos.firstIndex(of: todo) {
+        if let getTodoIndex = self.todos.firstIndex(where: {$0.id == todo.id}) {
             self.todos.remove(at: getTodoIndex)
             loading = false
             return true

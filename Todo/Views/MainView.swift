@@ -9,12 +9,9 @@ import SwiftUI
 
 struct MainView: View {
     
-    @StateObject var todos: TodoViewModel = TodoViewModel()
+    @StateObject var todos = TodoViewModel()
     
     //    @EnvironmentObject var todos: TodoViewModel
-    
-    @State var title: String = ""
-    @State var date: Date = Date()
     
     @State var isPresented: Bool  = false
     
@@ -61,8 +58,7 @@ struct MainView: View {
                 ScrollView{
                     
                     VStack (spacing: 5){
-                        ForEach(todos.sortNotCompleted) {
-                            todo in
+                        ForEach(todos.sortNotCompleted) { todo in
                             TodoItemView(title: todo.title, completed: todo.completed, date: todo.date,
                             stateTap: {
                                 todos.switchState(todo: todo)
@@ -93,16 +89,13 @@ struct MainView: View {
                 }
 //                .scrollClipDisabled()
                 .sheet(isPresented: $isPresented) {
-                    CreateTodoForm(todos: todos)
+                    CreateTodoView(todos: todos)
                 }
-                .presentationDetents([.fraction(0.2), .medium])
+                .presentationDetents([.fraction(0.2)])
+                .presentationCornerRadius(1)
                
-                
-                
                 Spacer()
                  
-                
-                
                 Image(systemName: "plus")
                     .font(.system(size: 30))
                     .padding()
