@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct TodoApp: App {
+    
+//    @StateObject private var todoViewModel:TodoViewModel = TodoViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTapView()
+//                .environmentObject(todoViewModel)
         }
     }
 }
